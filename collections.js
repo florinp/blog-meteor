@@ -1,1 +1,35 @@
 Post = new Meteor.Collection('post');
+var imageStoreFileSytem = new FS.Store.FileSystem("systemImages");
+var imageStore = new FS.Store.GridFS("mongoImages");
+Images = new FS.Collection("images", {
+    stores: [imageStore, imageStoreFileSytem]
+});
+Images.deny({
+    insert: function(){
+        return false;
+    },
+    update: function(){
+        return false;
+    },
+    remove: function(){
+        return false;
+    },
+    download: function(){
+        return false;
+    }
+});
+
+Images.allow({
+    insert: function(){
+        return true;
+    },
+    update: function(){
+        return true;
+    },
+    remove: function(){
+        return true;
+    },
+    download: function(){
+        return true;
+    }
+});

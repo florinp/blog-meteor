@@ -3,25 +3,36 @@ Router.configure({
 });
 
 Router.map(function() {
-    this.route('home', { path: '/' });
-    this.route('admin', {
-        layoutTemplate: 'admin/layout'
+    this.route('home', {
+        path: '/',
+        controller: 'HomeController'
+    });
+    this.route('post', {
+        path: '/post/:slug',
+        controller: 'PostController'
+    });
+    this.route('archive', {
+        path: '/archive/:month/:year',
+        controller: 'ArchiveController'
+    });
+    this.route('admin/posts/edit', {
+        path: '/admin/posts/edit/:_id',
+        controller: 'EditPostController'
     });
     this.route('admin/posts', {
-        layoutTemplate: 'admin/layout'
+        path: '/admin/posts',
+        controller: 'PostsController'
     });
     this.route('admin/posts/add', {
-        layoutTemplate: 'admin/layout'
-    });
-    this.route('admin/login', {
-        layoutTemplate: ''
+        path: '/admin/posts/add',
+        controller: 'AddPostController'
     });
 });
 
 Router.onBeforeAction(function(){
     if(!Meteor.userId()) {
-        Router.go('admin/login');
+        Router.go('/');
     } else {
         this.next();
     }
-}, { only: ['admin'] });
+}, { only: ['admin/posts', 'admin/posts/add', 'admin/posts/edit']});

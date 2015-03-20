@@ -1,0 +1,7 @@
+<template name="post">
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{post.title}}</h2>
+        <p class="blog-post-meta">{{formatDate post.createdAt}}</p>
+        {{{post.text}}}
+    </div>
+</template>

@@ -1,0 +1,8 @@
+<template name="archive">
+    <h4>Archives</h4>
+    <ol class="list-unstyled">
+        {{#each archives}}
+            <li><a href="/archive/{{month}}/{{year}}">{{name}}</a></li>
+        {{/each}}
+    </ol>
+</template>

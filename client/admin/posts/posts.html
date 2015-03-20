@@ -1,0 +1,28 @@
+<template name="posts">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Posts list</h4>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Created at</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each posts}}
+                    <tr>
+                        <td>{{title}}</td>
+                        <td>{{formatDate createdAt}}</td>
+                        <td>
+                            <a href="/admin/posts/edit/{{_id}}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="#" class="btn btn-danger btn-sm deletePost" data-postId="{{_id}}">Delete</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>

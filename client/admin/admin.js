@@ -1,4 +1,4 @@
-Template.adminLogin.events({
+/*Template.adminLogin.events({
     'submit .form-signin': function(event) {
         event.preventDefault();
         var email = event.target.email.value,
@@ -55,8 +55,11 @@ Template.adminPostsAdd.events({
         var text = event.target.text.value,
             title = event.target.title.value;
 
+        var slug = Blog.generateSlug(title);
+
         Post.insert({
             userId: Meteor.userId(),
+            slug: slug,
             title: title,
             text: text,
             createdAt: new Date()
@@ -67,3 +70,6 @@ Template.adminPostsAdd.events({
         return false
     }
 });
+Template.adminPostsAdd.onRendered(function(){
+    $("#text").redactor();
+});*/
