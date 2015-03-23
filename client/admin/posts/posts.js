@@ -1,4 +1,4 @@
-PostsController = BaseController.extend({
+PostsController = AdminController.extend({
     waitOn: function() {
         return Meteor.subscribe('posts');
     },

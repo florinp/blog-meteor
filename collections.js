@@ -1,8 +1,10 @@
 Post = new Meteor.Collection('post');
-var imageStoreFileSytem = new FS.Store.FileSystem("systemImages");
+Comment = new Meteor.Collection('comment');
+
+var imageStoreFileSytem = new FS.Store.FileSystem("systemImages", { path: "~/uploads" });
 var imageStore = new FS.Store.GridFS("mongoImages");
 Images = new FS.Collection("images", {
-    stores: [imageStore, imageStoreFileSytem]
+    stores: [imageStoreFileSytem]
 });
 Images.deny({
     insert: function(){

@@ -38,6 +38,20 @@ Meteor.publish('posts', function(){
         Images.find()
     ];
 });
+Meteor.publish('comments', function(postSlug) {
+    var post = Post.findOne({slug: postSlug});
+    if(post === 'undefined' || post == null) {
+        console.log('Not found');
+        throw new Meteor.Error("Not found");
+    }
+
+    var comments = Comment.find({postId: post._id});
+
+    return comments;
+});
+Meteor.publish('commentsForEdit', function() {
+    return Comment.find({}, { sort: { createdAt: -1 } });
+});
 Meteor.publish('archivedPosts', function(month, year){
     // /([A-Za-z]){3}(\s)(Mar)(\s)(\d){2}(\s)(2015)(\s)(\d){2}:(\d){2}:(\d){2}(\s)([A-Z]){3}\+(\d){4}(\s)\(([A-Za-z]\w+)(\s)([A-Za-z]\w+)(\s)([A-Za-z]\w+)\)/i
     var date = moment([year, month - 1]);
@@ -106,7 +120,7 @@ Meteor.methods({
             },
             createdAt: Post.findOne({_id: postId}).createdAt,
             updatedAt: new Date()
-        }
+        };
 
         Post.update({_id: postId}, post);
     },
@@ -121,6 +135,35 @@ Meteor.methods({
         });
         console.log(posts);
         return posts;
+    },
+    'addComment': function(postSlug, options) {
+        var post = Post.findOne({slug: postSlug});
+        if(post === 'undefined' || post == null) {
+            console.log('Not found');
+            throw new Meteor.Error("Not found");
+        }
+
+        var comment = {
+            postId: post._id,
+            name: options.name,
+            email: options.email,
+            comment: options.comment,
+            createdAt: new Date(),
+            status: true
+        }
+
+        //console.log(comment);
+
+        return Comment.insert(comment);
+    },
+    'approveComment': function(commentId) {
+        Comment.update({_id: commentId}, { $set: { 'status': true } });
+    },
+    'disapproveComment': function(commentId) {
+        Comment.update({_id: commentId}, { $set: { 'status': false } });
+    },
+    'deleteComment': function(commentId) {
+        Comment.remove({_id: commentId});
     }
 });
 

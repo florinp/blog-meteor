@@ -1,4 +1,4 @@
-EditPostController = BaseController.extend({
+EditPostController = AdminController.extend({
     waitOn: function() {
         return Meteor.subscribe('postForEdit', this.params._id);
     },
@@ -15,7 +15,7 @@ EditPostController = BaseController.extend({
 
 Template.editPost.rendered = function() {
     $("#text").redactor({
-        plugins: ['imagemeteor']
+        plugins: ['imagemeteor', 'imagemanager']
     });
 };
 

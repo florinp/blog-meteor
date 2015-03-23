@@ -1,0 +1,36 @@
+<template name="adminComments">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Comments list</h4>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Post</th>
+                <th>Author</th>
+                <th>Created at</th>
+                <th class="text-center">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each comments}}
+                <tr>
+                    <td><a href="/admin/posts/edit/{{postId}}">{{postTitle}}</a></td>
+                    <td><a href="mailto:{{authorEmail}}">{{author}}</a></td>
+                    <td>{{formatDate createdAt}}</td>
+                    <td class="text-center">
+                        <a href="/admin/comments/view/{{id}}" class="btn btn-default btn-sm">View</a>
+                        {{#if status}}
+                            <a href="#" class="btn btn-success btn-sm disapproveCommentBtn" data-commentid="{{id}}">Disapprove</a>
+                        {{else}}
+                            <a href="#" class="btn btn-success btn-sm approveCommentBtn" data-commentid="{{id}}">Approve</a>
+                        {{/if}}
+
+                        <a href="#" class="btn btn-danger btn-sm deleteCommentBtn" data-commentid="{{id}}">Delete</a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>

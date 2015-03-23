@@ -4,4 +4,41 @@
         <p class="blog-post-meta">{{formatDate post.createdAt}}</p>
         {{{post.text}}}
     </div>
+    <div class="blog-comments">
+        {{> comments}}
+    </div>
+</template>
+<template name="comments">
+    <div class="addComment">
+        <a href="#" class="displayAddCommentForm">Add comment</a> <br />
+        <form method="post" class="addCommentForm" style="display: none">
+            <div class="col-md-6 form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" name="name" />
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email" />
+            </div>
+            <div class="col-md-12 form-group">
+                <label>Comment</label>
+                <textarea name="comment" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" value="Comment" />
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+    <div class="comments">
+        {{#each postComments}}
+            {{> comment}}
+        {{/each}}
+    </div>
+</template>
+<template name="comment">
+    <div class="comment" id="comment-{{_id}}">
+        <div class="author">{{formatDate createdAt}} by <a href="mailto:{{email}}">{{name}}</a></div>
+        <div class="text">{{{comment}}}</div>
+    </div>
 </template>

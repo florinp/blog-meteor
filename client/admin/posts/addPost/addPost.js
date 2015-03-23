@@ -1,4 +1,4 @@
-AddPostController = BaseController.extend({
+AddPostController = AdminController.extend({
     waitOn: function() {
         return Meteor.subscribe('posts');
     },
@@ -42,5 +42,7 @@ Template.addPost.events({
 });
 
 Template.addPost.rendered = function() {
-    $("#text").redactor();
+    $("#text").redactor({
+        plugins: ['imagemeteor']
+    });
 }

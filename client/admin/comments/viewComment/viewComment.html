@@ -1,0 +1,23 @@
+<template name="viewComment">
+    {{#with comment}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{formatDate createdAt}} by <a href="mailto:{{email}}">{{name}}</a>
+            </div>
+            <div class="panel-body">
+                {{{this.comment}}}
+            </div>
+            <div class="panel-footer">
+                <div class="pull-right">
+                    {{#if status}}
+                        <a href="#" class="btn btn-success btn-sm disapproveCommentBtn" data-commentid="{{_id}}">Disapprove</a>
+                    {{else}}
+                        <a href="#" class="btn btn-success btn-sm approveCommentBtn" data-commentid="{{_id}}">Approve</a>
+                    {{/if}}
+                    <a href="#" class="btn btn-danger btn-sm deleteCommentBtn" data-commentid="{{_id}}">Delete</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    {{/with}}
+</template>

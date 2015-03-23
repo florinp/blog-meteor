@@ -15,5 +15,8 @@ HomeController = BaseController.extend({
 Template.home.helpers({
     posts: function() {
         return Post.find({}, {sort: {createdAt: -1}});
+    },
+    parseImg: function(text) {
+
     }
 });

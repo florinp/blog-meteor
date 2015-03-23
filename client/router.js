@@ -2,6 +2,16 @@ Router.configure({
     layoutTemplate: 'layout'
 });
 
+Router._scrollToHash = function(hash) {
+    var section = $(hash);
+    if (section.length) {
+        var sectionTop = section.offset().top;
+        $("html, body").animate({
+            scrollTop: sectionTop
+        }, "slow");
+    }
+};
+
 Router.map(function() {
     this.route('home', {
         path: '/',
@@ -26,6 +36,14 @@ Router.map(function() {
     this.route('admin/posts/add', {
         path: '/admin/posts/add',
         controller: 'AddPostController'
+    });
+    this.route('admin/comments', {
+        path: '/admin/comments',
+        controller: 'CommentsController'
+    });
+    this.route('admin/comments/view', {
+        path: '/admin/comments/view/:_id',
+        controller: 'ViewCommentController'
     });
 });
 
