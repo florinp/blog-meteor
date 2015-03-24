@@ -38,6 +38,12 @@ Meteor.publish('posts', function(){
         Images.find()
     ];
 });
+Meteor.publish('morePosts', function(limit) {
+    if(limit > Post.find().count()) {
+        limit = 0;
+    }
+    return Post.find({}, {limit: limit});
+});
 Meteor.publish('comments', function(postSlug) {
     var post = Post.findOne({slug: postSlug});
     if(post === 'undefined' || post == null) {
@@ -164,6 +170,60 @@ Meteor.methods({
     },
     'deleteComment': function(commentId) {
         Comment.remove({_id: commentId});
+    },
+    'addRating': function(postId, rate) {
+        var ip = '0.0.0.0';
+        if(!this.connection.clientAddress)
+            throw new Meteor.Error(403, "Server Error: You must be connected.");
+        else
+            ip = this.connection.clientAddress;
+
+        // check rating
+        var exists = false;
+        var post = Post.findOne({_id: postId});
+        if(post.rating) {
+            var rating = post.rating;
+            rating.forEach(function(item) {
+                if(item.ip == ip) {
+                    exists = true;
+                } else {
+                    return;
+                }
+            });
+        }
+
+        if(exists == false) {
+            var rating = {
+                rate: rate,
+                ip: ip,
+                createdAt: new Date()
+            };
+
+            Post.update({_id:postId}, {$push: { rating: rating }});
+        }
+    },
+    'checkRating': function(postId) {
+        var ip = '0.0.0.0';
+        if(!this.connection.clientAddress)
+            throw new Meteor.Error(403, "Server Error: You must be connected.");
+        else
+            ip = this.connection.clientAddress;
+
+        // check rating
+        var exists = false;
+        var post = Post.findOne({_id: postId});
+        if(post.rating) {
+            var rating = post.rating;
+            rating.forEach(function(item) {
+                if(item.ip == ip) {
+                    exists = true;
+                } else {
+                    return;
+                }
+            });
+        }
+
+        return exists;
     }
 });
 

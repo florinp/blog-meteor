@@ -3,10 +3,16 @@
         <div class="blog-post">
             <h2 class="blog-post-title">{{title}}</h2>
             <p class="blog-post-meta">{{formatDate createdAt}} by <b>{{userName}}</b></p>
-            {{{shortText text '0' '200'}}}
+            <p>{{{shortText text '0' '200'}}}</p>
             <div>
                 <a href="/post/{{slug}}" class="btn btn-primary btn-sm pull-right">Read more</a>
             </div>
         </div>
     {{/each}}
+    <div class="clearfix"></div>
+    {{#if moreResults}}
+        <div class="load-more-container">
+            <a href="#" class="load-more">Load more</a>
+        </div>
+    {{/if}}
 </template>

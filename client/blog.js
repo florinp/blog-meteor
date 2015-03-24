@@ -4,6 +4,8 @@ Template.registerHelper('formatDate', function(date){
 Template.registerHelper('shortText', function(text, start, end){
     start = parseInt(start);
     end = parseInt(end);
+    text = text.replace(/<img\s.+?(?!\/)>/g, "");
+    text = text.replace(/(<([^>]+)>)/ig, "");
     if(text.length > end) {
         text = text.substr(start, end) + ' ...';
     }

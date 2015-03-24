@@ -15,15 +15,11 @@
             </ul>
         {{else}}
             <h4>Login</h4>
-            <form class="loginForm">
-                <div class="form-group">
-                    <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                </div>
-                <input type="submit" class="btn btn-primary btn-sm loginBtn" value="Login" />
-            </form>
+            {{#autoForm schema=loginForm type="method" id="loginForm" class="loginForm" afFieldInput-placeholder="schemaLabel"}}
+                {{> afQuickField name="username" placeholder="Username" label-class="sr-only"}}
+                {{> afQuickField type="password" name="password" placeholder="Password" label-class="sr-only"}}
+                <input type="submit" class="btn btn-primary btn-sm" value="Login" />
+            {{/autoForm}}
         {{/if}}
     </div>
     <div class="sidebar-module sidebar-module-inset">

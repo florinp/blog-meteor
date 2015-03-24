@@ -1,34 +1,34 @@
 <template name="post">
-    <div class="blog-post">
-        <h2 class="blog-post-title">{{post.title}}</h2>
-        <p class="blog-post-meta">{{formatDate post.createdAt}}</p>
-        {{{post.text}}}
-    </div>
-    <div class="blog-comments">
-        {{> comments}}
-    </div>
+    {{#with ret}}
+        <div class="blog-post">
+            <h2 class="blog-post-title">{{post.title}}</h2>
+            <p class="blog-post-meta">
+                <span class="pull-left">{{formatDate post.createdAt}} by <b>{{post.userName}}</b></span>
+                <span class="stars">
+                    <input class="star star-5" id="star-5" type="radio" checked="{{checkStar '5' rating}}" value="5" name="star" disabled="{{checkRating}}"/>
+                    <label class="star star-5" for="star-5"></label>
+                    <input class="star star-4" id="star-4" type="radio" checked="{{checkStar '4' rating}}" value="4" name="star" disabled="{{checkRating}}"/>
+                    <label class="star star-4" for="star-4"></label>
+                    <input class="star star-3" id="star-3" type="radio" checked="{{checkStar '3' rating}}" value="3" name="star" disabled="{{checkRating}}"/>
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" id="star-2" type="radio" checked="{{checkStar '2' rating}}" value="2" name="star" disabled="{{checkRating}}"/>
+                    <label class="star star-2" for="star-2"></label>
+                    <input class="star star-1" id="star-1" type="radio" checked="{{checkStar '1' rating}}" value="1" name="star" disabled="{{checkRating}}"/>
+                    <label class="star star-1" for="star-1"></label>
+                </span>
+                <span class="clearfix"></span>
+            </p>
+            {{{post.text}}}
+        </div>
+        <div class="blog-comments">
+            {{> comments}}
+        </div>
+    {{/with}}
 </template>
 <template name="comments">
     <div class="addComment">
         <a href="#" class="displayAddCommentForm">Add comment</a> <br />
-        <form method="post" class="addCommentForm" style="display: none">
-            <div class="col-md-6 form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" name="name" />
-            </div>
-            <div class="col-md-6 form-group">
-                <label>Email</label>
-                <input type="text" class="form-control" name="email" />
-            </div>
-            <div class="col-md-12 form-group">
-                <label>Comment</label>
-                <textarea name="comment" class="form-control" rows="6"></textarea>
-            </div>
-            <div class="col-md-12">
-                <input type="submit" class="btn btn-primary" value="Comment" />
-            </div>
-            <div class="clearfix"></div>
-        </form>
+        {{> quickForm schema=addCommentFormSchema id="addCommentForm" class="addCommentForm" style="display: none"}}
     </div>
     <div class="comments">
         {{#each postComments}}

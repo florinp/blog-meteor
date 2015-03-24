@@ -18,7 +18,32 @@ Template.editPost.rendered = function() {
         plugins: ['imagemeteor', 'imagemanager']
     });
 };
-
+Template.editPost.helpers({
+    editPostForm: function() {
+        return new SimpleSchema({
+            title: {
+                type: String,
+                label: "Title",
+                max: 200
+            },
+            slug: {
+                type: String,
+                label: "Slug",
+                max: 200,
+                optional: true
+            },
+            text: {
+                type: String,
+                label: "Text",
+                min: 20,
+                autoform: {
+                    rows: 6,
+                    id: "text"
+                }
+            }
+        });
+    }
+});
 Template.editPost.events({
     "submit .editPostForm": function(event) {
         event.preventDefault();

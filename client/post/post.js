@@ -1,3 +1,5 @@
+var self = this;
+
 PostController = BaseController.extend({
     waitOn: function() {
         return [
@@ -9,13 +11,55 @@ PostController = BaseController.extend({
         Session.set('entitySlug', this.params.slug);
     },
     action: function() {
+        //Session.set('clientIp', self.request.connection.remoteAddress);
         this.render('post');
     }
 });
 
 Template.post.helpers({
-    post: function() {
-        return Post.findOne({slug: Session.get('entitySlug')});
+    ret: function() {
+        var ret = {};
+        ret.post = Post.findOne({slug: Session.get('entitySlug')});
+        ret.rating = function() {
+            var post = Post.findOne({slug: Session.get('entitySlug')});
+            var ma = 0;
+            var total_rate = 0;
+            var ratings = post.rating;
+            if(ratings) {
+                ratings.forEach(function(item){
+                    total_rate = total_rate + parseInt(item.rate);
+                });
+
+                ma = total_rate/ratings.length;
+            }
+            return Math.round(ma);
+        };
+        return ret;
+    },
+    checkStar: function(star, rating) {
+        if(parseInt(star) == parseInt(rating)) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    checkRating: function() {
+        var post = Post.findOne({slug: Session.get('entitySlug')}),
+            exists = false;
+        Meteor.call('checkRating', post._id, function(err, resp) {
+            Session.set('checkRatingIfExists', resp);
+        });
+
+        exists = Session.get('checkRatingIfExists');
+
+        return exists;
+    }
+});
+Template.post.events({
+    "change input[name=star]": function(event) {
+        var post = Post.findOne({slug: Session.get('entitySlug')});
+        var rate = event.currentTarget.value;
+        Meteor.call('addRating', post._id, rate);
     }
 });
 
@@ -24,9 +68,33 @@ Template.comments.helpers({
         var post = Post.findOne({slug: Session.get('entitySlug')});
         var comments = Comment.find({postId: post._id, status: true});
 
-        console.log(comments);
-
         return comments;
+    },
+    addCommentFormSchema: function() {
+        return new SimpleSchema({
+            name: {
+                type: String,
+                label: "Name",
+                max: 200
+            },
+            email: {
+                type: String,
+                label: "Email",
+                max: 255,
+                autoform: {
+                    type: "email"
+                },
+                regEx: SimpleSchema.RegEx.Email
+            },
+            comment: {
+                type: String,
+                label: "Comment",
+                min: 50,
+                autoform: {
+                    rows: 6
+                }
+            }
+        });
     }
 });
 
@@ -74,3 +142,8 @@ Template.comments.events({
         return false;
     }
 });
+
+Template.comments.rendered = function() {
+
+    //$(".addCommentForm").parsley();
+}

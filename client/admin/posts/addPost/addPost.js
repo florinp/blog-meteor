@@ -6,7 +6,30 @@ AddPostController = AdminController.extend({
         this.render('addPost');
     }
 });
-
+Template.addPost.helpers({
+    addPostForm: function() {
+        return new SimpleSchema({
+            title: {
+                type: String,
+                label: "Title",
+                max: 200
+            },
+            text: {
+                type: String,
+                label: "Text",
+                min: 20,
+                autoform: {
+                    rows: 6
+                }
+            },
+            Thumbnail: {
+                type: Object,
+                label: "Thumbnail",
+                optional: true
+            }
+        });
+    }
+});
 Template.addPost.events({
     "submit .addNewPostForm": function(event) {
         event.preventDefault();

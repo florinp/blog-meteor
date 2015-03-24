@@ -22,3 +22,9 @@ cfs:file
 cfs:upload-http
 cfs:ejson-file
 natestrauser:font-awesome
+amr:parsley.js
+mrt:pagemaster
+aldeed:autoform
+aldeed:collection2
+reactive-var
+aldeed:simple-schema

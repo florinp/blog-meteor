@@ -5,30 +5,20 @@
         </div>
         <div class="panel-body">
             {{#with post}}
-            <form class="editPostForm" method="post">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" name="title" id="title" class="form-control" value="{{title}}" />
-                </div>
-                <div class="form-group">
-                    <label for="slug">Slug</label>
-                    <input type="text" name="slug" id="slug" class="form-control" value="{{slug}}" />
-                    <p class="help-block">If this field is empty it will be generated automated.</p>
-                </div>
-                <div class="form-group">
-                    <label for="text">Text</label>
-                    <textarea name="text" id="text" class="form-control">{{text}}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="thumbnail">Thumbnail</label>
-                    <input type="file" name="file" class="fileInput" />
-                </div>
-                <div class="form-group">
-                    <label>Current thumbnail</label>
-                    <img src="{{getThumbnail metadata.thumbnail}}" width="100" />
-                </div>
-                <input type="submit" class="btn btn-success" value="Save" />
-            </form>
+                {{#autoForm id="editPostForm" class="editPostForm" schema=editPostForm}}
+                    {{> afQuickField name="title" value=title}}
+                    {{> afQuickField name="slug" value=slug}}
+                    {{> afQuickField name="text" value=text}}
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail</label>
+                        <input type="file" name="file" class="fileInput" />
+                    </div>
+                    <div class="form-group">
+                        <label>Current thumbnail</label>
+                        <img src="{{getThumbnail metadata.thumbnail}}" width="100" />
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Save" />
+                {{/autoForm}}
             {{/with}}
         </div>
     </div>

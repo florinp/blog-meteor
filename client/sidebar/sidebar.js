@@ -1,3 +1,16 @@
+Template.sidebar.helpers({
+    loginForm: function() {
+        return new SimpleSchema({
+            username: {
+                type: String
+            },
+            password: {
+                type: String
+            }
+        });
+    }
+});
+
 Template.sidebar.events({
     "submit .loginForm": function(event) {
         event.preventDefault();
