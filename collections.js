@@ -2,7 +2,7 @@ Post = new Meteor.Collection('post');
 Comment = new Meteor.Collection('comment');
 Rating = new Meteor.Collection('rating');
 
-var imageStoreFileSytem = new FS.Store.FileSystem("systemImages", { path: "~/uploads" });
+var imageStoreFileSytem = new FS.Store.FileSystem("systemImages", { path: "./uploads" });
 var imageStore = new FS.Store.GridFS("mongoImages");
 Images = new FS.Collection("images", {
     stores: [imageStoreFileSytem]

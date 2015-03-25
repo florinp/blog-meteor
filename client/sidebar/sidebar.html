@@ -3,22 +3,28 @@
         {{#if currentUser}}
             <h4>Salut, {{currentUser.username}}</h4>
             <ul class="nav nav-pills nav-stacked">
-                <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="glyphicon glyphicon-tasks"></i> Posts <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="/admin/posts"><i class="glyphicon glyphicon-th-list"></i> All posts</a></li>
-                        <li><a href="/admin/posts/add"><i class="glyphicon glyphicon-plus"></i> Add new</a></li>
-                    </ul>
-                </li>
-                <li><a href="/admin/comments"><i class="glyphicon glyphicon-th-list"></i> Comments</a></li>
+                {{#if isInRole 'admin'}}
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="glyphicon glyphicon-tasks"></i> Posts <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/admin/posts"><i class="glyphicon glyphicon-th-list"></i> All posts</a></li>
+                            <li><a href="/admin/posts/add"><i class="glyphicon glyphicon-plus"></i> Add new</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/admin/comments"><i class="glyphicon glyphicon-th-list"></i> Comments</a></li>
+                {{/if}}
                 <li><a href="#" class="logoutBtn"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
             </ul>
         {{else}}
             <h4>Login</h4>
-            {{#autoForm schema=loginForm type="method" id="loginForm" class="loginForm" afFieldInput-placeholder="schemaLabel"}}
+            {{#if loginErrors}}
+                <p class="text-danger">{{loginErrors}}</p>
+            {{/if}}
+            {{#autoForm schema=loginForm id="loginForm" class="loginForm" afFieldInput-placeholder="schemaLabel"}}
                 {{> afQuickField name="username" placeholder="Username" label-class="sr-only"}}
                 {{> afQuickField type="password" name="password" placeholder="Password" label-class="sr-only"}}
                 <input type="submit" class="btn btn-primary btn-sm" value="Login" />
+                <a href="/register">Register</a>
             {{/autoForm}}
         {{/if}}
     </div>

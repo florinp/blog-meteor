@@ -25,6 +25,10 @@ Router.map(function() {
         path: '/archive/:month/:year',
         controller: 'ArchiveController'
     });
+    this.route('register', {
+        path: '/register',
+        controller: 'RegisterController'
+    });
     this.route('admin/posts/edit', {
         path: '/admin/posts/edit/:_id',
         controller: 'EditPostController'

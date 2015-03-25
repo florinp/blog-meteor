@@ -1,0 +1,20 @@
+<template name="register">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{#autoForm schema=registerFormSchema id="registerForm"}}
+                {{> afQuickField name="username"}}
+                {{> afQuickField name="password"}}
+                {{> afQuickField name="confirmPassword"}}
+                {{> afQuickField name="email"}}
+                <input type="submit" class="btn btn-primary" value="Register">
+            {{/autoForm}}
+        </div>
+    </div>
+</template>
+<template name="confirmMsg">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>An email with confirmation link has been sent to your email address</h3>
+        </div>
+    </div>
+</template>

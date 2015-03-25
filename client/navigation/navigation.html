@@ -4,14 +4,18 @@
             <ul class="blog-nav">
                 <li class="blog-nav-item"><a class="blog-nav-item" href="/">Home</a></li>
                 {{#if currentUser}}
-                    <li class="blog-nav-item">
-                        <a class="dropdown-toggle blog-nav-item" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Posts <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/admin/posts">All posts</a></li>
-                            <li><a href="/admin/posts/add">Add new</a></li>
-                        </ul>
-                    </li>
-                    <li class="blog-nav-item"><a class="blog-nav-item" href="/admin/comments">Comments</a></li>
+                    {{#if isInRole 'admin'}}
+                        <li class="blog-nav-item">
+                            <a class="dropdown-toggle blog-nav-item" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Posts <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/admin/posts">All posts</a></li>
+                                <li><a href="/admin/posts/add">Add new</a></li>
+                            </ul>
+                        </li>
+                        <li class="blog-nav-item"><a class="blog-nav-item" href="/admin/comments">Comments</a></li>
+                    {{/if}}
+                {{else}}
+                    <li class="blog-nav-item"><a class="blog-nav-item" href="/register">Register</a></li>
                 {{/if}}
             </ul>
         </div>

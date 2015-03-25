@@ -1,3 +1,5 @@
+var loginError = new ReactiveVar('');
+
 Template.sidebar.helpers({
     loginForm: function() {
         return new SimpleSchema({
@@ -5,9 +7,13 @@ Template.sidebar.helpers({
                 type: String
             },
             password: {
-                type: String
+                type: String,
+                min: 6
             }
         });
+    },
+    loginErrors: function() {
+        return loginError.get();
     }
 });
 
@@ -20,7 +26,7 @@ Template.sidebar.events({
 
         Meteor.loginWithPassword(username, password, function(err) {
             if(err) {
-                console.log(err);
+                loginError.set(err.reason);
             } else {
                 console.log('success');
             }
