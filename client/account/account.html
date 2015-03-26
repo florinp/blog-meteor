@@ -1,0 +1,55 @@
+<template name="account">
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#account" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
+            <li><a href="#changePassword" aria-controls="changePassword" role="tab" data-toggle="tab">Change password</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="account">
+                {{> editAccount}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="changePassword">
+                {{> changePassword}}
+            </div>
+        </div>
+    </div>
+</template>
+<template name="editAccount">
+    {{#if error}}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close close-error" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong> {{error}}
+        </div>
+    {{/if}}
+    {{#if success}}
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close close-success" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> The data has been saved
+        </div>
+    {{/if}}
+    {{#autoForm schema=editAccountSchema id="editAccountForm"}}
+        {{> afQuickField name="firstName" value=currentUser.profile.firstName}}
+        {{> afQuickField name="lastName" value=currentUser.profile.lastName}}
+        <input type="submit" class="btn btn-primary" value="Save" />
+    {{/autoForm}}
+</template>
+<template name="changePassword">
+    {{#if error}}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close close-error" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong> {{error}}
+        </div>
+    {{/if}}
+    {{#if message}}
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close close-message" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Success!</strong> The password has been changed
+        </div>
+    {{/if}}
+    {{#autoForm schema=changePasswordSchema id="changePasswordForm"}}
+        {{> afQuickField name="oldPassword"}}
+        {{> afQuickField name="newPassword"}}
+        {{> afQuickField name="confirmNewPassword"}}
+        <input type="submit" class="btn btn-primary" value="Change" />
+    {{/autoForm}}
+</template>

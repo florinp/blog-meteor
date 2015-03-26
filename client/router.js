@@ -29,6 +29,10 @@ Router.map(function() {
         path: '/register',
         controller: 'RegisterController'
     });
+    this.route('account', {
+        path: '/account',
+        controller: 'AccountController'
+    });
     this.route('admin/posts/edit', {
         path: '/admin/posts/edit/:_id',
         controller: 'EditPostController'

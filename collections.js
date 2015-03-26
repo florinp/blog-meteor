@@ -2,27 +2,38 @@ Post = new Meteor.Collection('post');
 Comment = new Meteor.Collection('comment');
 Rating = new Meteor.Collection('rating');
 
-var imageStoreFileSytem = new FS.Store.FileSystem("systemImages", { path: "./uploads" });
-var imageStore = new FS.Store.GridFS("mongoImages");
+var imageStoreFileSystem = new FS.Store.FileSystem("systemImages", { path: "~/uploads/images" });
 Images = new FS.Collection("images", {
-    stores: [imageStoreFileSytem]
+    stores: [imageStoreFileSystem],
+    filter: {
+        allow: {
+            contentTypes: ['image/*'] //allow only images in this FS.Collection
+        }
+    }
 });
-Images.deny({
+Images.allow({
     insert: function(){
-        return false;
+        return true;
     },
     update: function(){
-        return false;
+        return true;
     },
     remove: function(){
-        return false;
+        return true;
     },
     download: function(){
-        return false;
+        return true;
     }
 });
 
-Images.allow({
+Avatars = new FS.Collection("avatars", {
+    stores: [
+        new FS.Store.FileSystem("avatarsStore", {
+            path: "~/uploads/avatars"
+        })
+    ]
+});
+Avatars.allow({
     insert: function(){
         return true;
     },

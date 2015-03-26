@@ -151,12 +151,19 @@ Meteor.methods({
 
         return exists;
     },
-    'checkUsername': function(username) {
-        var users = Meteor.users.find({username: username});
-        if(users.count() > 0) {
-            return false;
-        } else {
+    'editAccount': function(options) {
+        var user = Meteor.user();
+        if(user) {
+            Meteor.users.update({_id: user._id}, {
+                $set: {
+                    "profile.firstName": options.firstName,
+                    "profile.lastName": options.lastName
+                }
+            });
+
             return true;
+        } else {
+            throw new Meteor.Error(403, "You are not logged in!");
         }
     }
 });
