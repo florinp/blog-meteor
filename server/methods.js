@@ -1,18 +1,23 @@
 Meteor.methods({
     'addPost': function(options) {
 
-        // check if the slug exists
-        var post = Post.findOne({ slug: options.slug });
-        if(post) {
-            console.log('Slug: ' + options.slug);
-            console.log('Post slug: ' + post.slug);
-            if(post.slug == options.slug) {
-                var slug_split = post.slug.split('-');
-                var no = (slug_split[slug_split.length-1 !== parseInt(slug_split[slug_split.length-1])] ) ? (parseInt(slug_split[slug_split.length-1]) + 1) : null;
-                var count = no != null ? no : 2;
-                options.slug = options.slug + "-" + count;
+        // check if the slug exist;
+        function checkSlug(slug) {
+            var posts = Post.find({ slug: slug });
+            if(posts.count() > 0) {
+                return true;
             }
+            return false;
         }
+
+        var slug = options.slug;
+        var baseSlug = slug;
+        var countSlug = 1;
+        while(checkSlug(slug)) {
+            countSlug = countSlug + 1;
+            slug = baseSlug + "-" + countSlug;
+        }
+        options.slug = slug;
 
         var post = {
             userId: Meteor.userId(),
@@ -29,17 +34,23 @@ Meteor.methods({
     'editPost': function(postId, options) {
 
         // check if the slug exists
-        var post = Post.findOne({ slug: options.slug });
-        if(post) {
-            console.log('Slug: ' + options.slug);
-            console.log('Post slug: ' + post.slug);
-            if(post.slug == options.slug && post._id != postId) {
-                var slug_split = post.slug.split('-');
-                var no = (slug_split[slug_split.length-1 !== parseInt(slug_split[slug_split.length-1])] ) ? (parseInt(slug_split[slug_split.length-1]) + 1) : null;
-                var count = no != null ? no : 2;
-                options.slug = options.slug + "-" + count;
+        function checkSlug(slug, postId) {
+            var posts = Post.find({ slug: slug });
+            var post = posts.fetch()[0];
+            if(posts.count() > 0 && post._id != postId) {
+                return true;
             }
+            return false;
         }
+
+        var slug = options.slug;
+        var baseSlug = slug;
+        var countSlug = 1;
+        while(checkSlug(slug, postId)) {
+            countSlug = countSlug + 1;
+            slug = baseSlug + "-" + countSlug;
+        }
+        options.slug = slug;
 
         var post = {
             userId: Meteor.userId(),
